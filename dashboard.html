@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Disease Prediction</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            HealthAI
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <!-- Populated by JS -->
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h2>Welcome, <span id="user-name" style="color: var(--primary);">User</span></h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Select a disease category to start a new prediction.</p>
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <a href="/predict.html?type=diabetes" class="disease-card glass-panel">
+                <div class="disease-icon">🩸</div>
+                <h3>Diabetes</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Analyze 8 parameters including glucose, BMI, and age.</p>
+            </a>
+            
+            <a href="/predict.html?type=heart" class="disease-card glass-panel">
+                <div class="disease-icon">🫀</div>
+                <h3>Heart Disease</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Analyze 13 parameters including ECG, cholesterol, and BP.</p>
+            </a>
+
+            <a href="/predict.html?type=parkinsons" class="disease-card glass-panel">
+                <div class="disease-icon">🧠</div>
+                <h3>Parkinson's</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Analyze 22 vocal and neurological parameters.</p>
+            </a>
+
+            <a href="/predict.html?type=liver" class="disease-card glass-panel">
+                <div class="disease-icon">🧬</div>
+                <h3>Liver Disease</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Analyze 10 parameters including bilirubin and proteins.</p>
+            </a>
+
+            <a href="/predict.html?type=kidney" class="disease-card glass-panel">
+                <div class="disease-icon">🫘</div>
+                <h3>Kidney Disease</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Analyze 24 comprehensive blood and urine parameters.</p>
+            </a>
+        </div>
+
+        <div class="glass-panel" style="padding: 2rem;">
+            <h3>Your Prediction History</h3>
+            <div style="overflow-x: auto;">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Disease Category</th>
+                            <th>Prediction Result</th>
+                            <th>Confidence Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Loading history...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

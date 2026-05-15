@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction - AI Disease Prediction</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            HealthAI
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <!-- Populated by JS -->
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <a href="/dashboard.html" style="color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem;">
+            ← Back to Dashboard
+        </a>
+
+        <div class="glass-panel" style="padding: 3rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 id="pageTitle" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Disease Prediction</h2>
+                <p style="color: var(--text-muted);">Please enter the required medical parameters accurately.</p>
+            </div>
+
+            <div id="alert" class="alert"></div>
+
+            <form id="predictForm">
+                <div class="predict-grid" id="formFields">
+                    <!-- Fields injected by JS -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button type="submit" class="btn btn-primary" style="min-width: 200px;" id="predictBtn">
+                        <span class="btn-text">Run AI Analysis</span>
+                        <div class="loader"></div>
+                    </button>
+                </div>
+            </form>
+
+            <div id="resultBox" class="result-box">
+                <div id="resultText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        const diseaseConfigs = {
+            'diabetes': {
+                title: 'Diabetes Risk Analysis',
+                fields: [
+                    { name: 'Pregnancies', desc: 'Number of times pregnant' },
+                    { name: 'Glucose', desc: 'Plasma glucose concentration (mg/dL)' },
+                    { name: 'BloodPressure', desc: 'Diastolic blood pressure (mm Hg)' },
+                    { name: 'SkinThickness', desc: 'Triceps skin fold thickness (mm)' },
+                    { name: 'Insulin', desc: '2-Hour serum insulin (mu U/ml)' },
+                    { name: 'BMI', desc: 'Body mass index (weight in kg/(height in m)^2)' },
+                    { name: 'DiabetesPedigreeFunction', desc: 'Diabetes pedigree function' },
+                    { name: 'Age', desc: 'Age in years' }
+                ]
+            },
+            'heart': {
+                title: 'Heart Disease Analysis',
+                fields: [
+                    { name: 'age', desc: 'Age in years' },
+                    { name: 'sex', desc: 'Sex (1=male, 0=female)' },
+                    { name: 'cp', desc: 'Chest pain type (0-3)' },
+                    { name: 'trestbps', desc: 'Resting blood pressure' },
+                    { name: 'chol', desc: 'Serum cholestoral in mg/dl' },
+                    { name: 'fbs', desc: 'Fasting blood sugar > 120 mg/dl (1=true)' },
+                    { name: 'restecg', desc: 'Resting electrocardiographic results (0-2)' },
+                    { name: 'thalach', desc: 'Maximum heart rate achieved' },
+                    { name: 'exang', desc: 'Exercise induced angina (1=yes)' },
+                    { name: 'oldpeak', desc: 'ST depression induced by exercise' },
+                    { name: 'slope', desc: 'Slope of the peak exercise ST segment' },
+                    { name: 'ca', desc: 'Number of major vessels (0-3)' },
+                    { name: 'thal', desc: 'Thal (0-3)' }
+                ]
+            },
+            'parkinsons': {
+                title: 'Parkinson\'s Disease Analysis',
+                fields: Array.from({length: 22}, (_, i) => ({ name: `Feature_${i+1}`, desc: 'Vocal/Neurological parameter' }))
+            },
+            'liver': {
+                title: 'Liver Disease Analysis',
+                fields: Array.from({length: 10}, (_, i) => ({ name: `Parameter_${i+1}`, desc: 'Liver function test value' }))
+            },
+            'kidney': {
+                title: 'Kidney Disease Analysis',
+                fields: Array.from({length: 24}, (_, i) => ({ name: `Metric_${i+1}`, desc: 'Blood/Urine metric' }))
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            if (!type || !diseaseConfigs[type]) {
+                window.location.href = '/dashboard.html';
+                return;
+            }
+
+            const config = diseaseConfigs[type];
+            document.getElementById('pageTitle').textContent = config.title;
+            
+            const formFields = document.getElementById('formFields');
+            formFields.innerHTML = config.fields.map((field, idx) => `
+                <div class="form-group">
+                    <label>${field.name}</label>
+                    <input type="number" step="any" class="form-control" required placeholder="${field.desc}">
+                </div>
+            `).join('');
+
+            document.getElementById('predictForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitPrediction(type);
+            });
+        });
+    </script>
+</body>
+</html>

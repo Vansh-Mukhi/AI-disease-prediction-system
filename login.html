@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Disease Prediction</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            HealthAI
+        </a>
+    </nav>
+
+    <div class="form-container glass-panel">
+        <h2 style="margin-bottom: 2rem; text-align: center;">Welcome Back</h2>
+        
+        <div id="alert" class="alert"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" required placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="loginBtn">
+                <span class="btn-text">Login</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+
+        <!-- Signup Form (Hidden by default) -->
+        <form id="signupForm" style="display: none;">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" class="form-control" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email Address</label>
+                <input type="email" id="signup-email" class="form-control" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" class="form-control" required placeholder="Create a password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="signupBtn">
+                <span class="btn-text">Create Account</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+            <span id="toggleText">Don't have an account?</span> 
+            <a href="#" id="toggleForm" style="color: var(--primary); text-decoration: none;">Sign up</a>
+        </p>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        document.getElementById('toggleForm').addEventListener('click', (e) => {
+            e.preventDefault();
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const toggleText = document.getElementById('toggleText');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                toggleText.textContent = "Don't have an account?";
+                e.target.textContent = "Sign up";
+                // Fix ids for JS handler
+                document.getElementById('signup-email').id = 'signup-email-temp';
+                document.getElementById('signup-password').id = 'signup-password-temp';
+                document.querySelector('#loginForm #email').id = 'email';
+                document.querySelector('#loginForm #password').id = 'password';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                toggleText.textContent = "Already have an account?";
+                e.target.textContent = "Login";
+                // Fix ids for JS handler
+                document.querySelector('#loginForm #email').id = 'login-email-temp';
+                document.querySelector('#loginForm #password').id = 'login-password-temp';
+                document.getElementById('signup-email-temp').id = 'email';
+                document.getElementById('signup-password-temp').id = 'password';
+            }
+        });
+        
+        // Initial setup for IDs to match app.js expectations for signup
+        document.getElementById('signup-email').id = 'signup-email-temp';
+        document.getElementById('signup-password').id = 'signup-password-temp';
+    </script>
+</body>
+</html>
